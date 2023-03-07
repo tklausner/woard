@@ -2,7 +2,7 @@ import { push, ref, set } from "firebase/database";
 import React, { useRef, useEffect } from "react";
 import { db } from "../util/firebase";
 
-function Surface({ local }) {
+function Surface({ local, boardID }) {
   const newDivRef = useRef(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function Surface({ local }) {
         const text = newDiv.textContent.trim();
         if (text) {
           try {
-            const newTextRef = push(ref(db, "texts"));
+            const newTextRef = push(ref(db, boardID));
             set(newTextRef, {
               text: text,
               px: parseInt(newDiv.style.left),
@@ -69,7 +69,7 @@ function Surface({ local }) {
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, [local]);
+  }, [boardID, local]);
 
   return <div ref={newDivRef} />;
 }
