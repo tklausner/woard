@@ -27,8 +27,12 @@ function Login({ onLogin }) {
   const handleSignup = async () => {
     try {
       const auth = getAuth();
-      await createUserWithEmailAndPassword(auth, email, password);
-      onLogin();
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      onLogin(userCredential.user);
     } catch (error) {
       console.error("Error signing up: ", error);
     }

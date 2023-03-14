@@ -9,13 +9,21 @@ import {
   ref,
   remove,
 } from "firebase/database";
+import { useParams } from "react-router-dom";
 
-function View({ boardID }) {
+function View({ userID, email }) {
+  const { _boardID } = useParams();
   const [texts, setTexts] = useState([]);
   const [loading, handleLoading] = useState(true);
   const [local, setLocal] = useState(true);
+  const [boardID, setBoardID] = useState(_boardID);
 
-  console.log(boardID);
+  useEffect(() => {
+    if (boardID === undefined) {
+      // let id = name.substring(0, name.indexOf("@"));
+      setBoardID(userID);
+    }
+  }, [boardID, userID]);
 
   const delete_data = () => {
     const confirmation = window.confirm(
@@ -99,18 +107,22 @@ function View({ boardID }) {
 
   return loading ? null : (
     <div style={style.container} id="container">
-      <h1>
-        {local} {local ? "LOCAL" : "ONLINE"}
-      </h1>
+      <h1>{local ? "LOCAL" : "ONLINE"}</h1>
+      <h5>UserID {userID}</h5>
+      <h5>BoardID {boardID}</h5>
+      <h5>Email {email}</h5>
+
       <div style={style.buttonContainer}>
-        <button style={style.button} onClick={delete_data}>
-          Erase
-        </button>
+        {!local && userID === boardID ? (
+          <button style={style.button} onClick={delete_data}>
+            Erase
+          </button>
+        ) : null}
         <button style={style.button} onClick={set_local}>
           {local ? "Go online" : "Go local"}
         </button>
       </div>
-      <Surface local={local} boardID={boardID} />
+      <Surface local={local} boardID={boardID} userID={userID} />
       {local ? null : (
         <div>
           {texts.map((text) => (

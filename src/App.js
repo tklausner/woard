@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Login from "./components/Login";
 import View from "./components/View";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -9,6 +10,7 @@ function App() {
 
   const handleLogin = (user) => {
     setUser(user);
+    console.log(user);
   };
 
   const handleLogout = () => {
@@ -16,24 +18,38 @@ function App() {
     auth.signOut();
   };
 
-  onAuthStateChanged(getAuth(), (user) => {
-    setUser(user);
-    setLoading(false);
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(getAuth(), (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
-    <div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : user ? (
-        <div>
-          <button onClick={handleLogout}>Logout</button>
-          <View boardID={user.uid} />
-        </div>
-      ) : (
-        <Login onLogin={handleLogin} />
-      )}
-    </div>
+    <Router>
+      <div>
+        {loading ? (
+          <p>Loading...</p>
+        ) : user ? (
+          <div>
+            <button onClick={handleLogout}>Logout</button>
+            <Routes>
+              <Route
+                path="/"
+                element={<View userID={user.uid} email={user.email} />}
+              />
+              <Route
+                path="/:_boardID"
+                element={<View userID={user.uid} email={user.email} />}
+              />
+            </Routes>
+          </div>
+        ) : (
+          <Login onLogin={handleLogin} />
+        )}
+      </div>
+    </Router>
   );
 }
 

@@ -2,7 +2,7 @@ import { push, ref, set } from "firebase/database";
 import React, { useRef, useEffect } from "react";
 import { db } from "../util/firebase";
 
-function Surface({ local, boardID }) {
+function Surface({ local, boardID, userID }) {
   const newDivRef = useRef(null);
 
   useEffect(() => {
@@ -30,6 +30,7 @@ function Surface({ local, boardID }) {
               px: parseInt(newDiv.style.left),
               py: parseInt(newDiv.style.top),
               size: parseInt(newDiv.style.fontSize),
+              user: userID,
             });
           } catch (e) {
             console.error("Error adding text: ", e);
@@ -69,7 +70,7 @@ function Surface({ local, boardID }) {
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, [boardID, local]);
+  }, [boardID, local, userID]);
 
   return <div ref={newDivRef} />;
 }
