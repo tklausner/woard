@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Login from "./components/Login";
 import View from "./components/View";
+import JoinBoard from "./components/JoinBoard";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -43,6 +44,7 @@ function App() {
                 path="/:_boardID"
                 element={<View userID={user.uid} email={user.email} />}
               />
+              <Route path="/join" element={<JoinBoard />} />
             </Routes>
           </div>
         ) : (
