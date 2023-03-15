@@ -8,6 +8,7 @@ import {
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { Grid, Typography } from "@mui/material";
 
@@ -15,8 +16,9 @@ function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [showSignUp, setShowSignUp] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,7 +32,8 @@ function Login({ onLogin }) {
       onLogin(userCredential.user);
     } catch (error) {
       console.error(error);
-      setErrorMessage(error.message);
+      setSnackbarMessage(error.message);
+      setOpenSnackbar(true);
     }
   };
 
@@ -46,7 +49,8 @@ function Login({ onLogin }) {
       onLogin(userCredential.user);
     } catch (error) {
       console.error("Error signing up: ", error);
-      setErrorMessage(error.message);
+      setSnackbarMessage(error.message);
+      setOpenSnackbar(true);
     }
   };
 
@@ -81,11 +85,6 @@ function Login({ onLogin }) {
         />
       )}
 
-      {errorMessage && (
-        <Alert severity="error" sx={{ marginTop: 2 }}>
-          {errorMessage}
-        </Alert>
-      )}
       <Grid container spacing={2} marginTop={2}>
         <Grid columns={2} item xs={showSignUp ? 4 : 8}>
           {showSignUp ? (
@@ -126,6 +125,20 @@ function Login({ onLogin }) {
           </Grid>
         )}
       </Grid>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setOpenSnackbar(false)}
+          severity="error"
+          variant="filled"
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
