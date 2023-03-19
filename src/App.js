@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Login from "./components/Login";
 import View from "./components/View";
-import JoinBoard from "./components/JoinBoard";
 import Navbar from "./components/Navbar";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -48,6 +47,7 @@ function App() {
                   <>
                     <Navbar
                       userID={user.uid}
+                      name={user.displayName}
                       handleZenMode={handleZenMode}
                       local={local}
                       handleLogout={handleLogout}
@@ -56,7 +56,7 @@ function App() {
                       local={local}
                       setLocal={setLocal}
                       userID={user.uid}
-                      email={user.email}
+                      name={user.displayName}
                     />
                   </>
                 }
@@ -66,7 +66,8 @@ function App() {
                 element={
                   <>
                     <Navbar
-                      boardID={user.uid}
+                      userID={user.uid}
+                      name={user.displayName}
                       handleZenMode={handleZenMode}
                       handleLogout={handleLogout}
                       local={local}
@@ -75,12 +76,11 @@ function App() {
                       local={local}
                       setLocal={setLocal}
                       userID={user.uid}
-                      email={user.email}
+                      name={user.displayName}
                     />
                   </>
                 }
               />
-              <Route path="/join" element={<JoinBoard />} />
             </Routes>
           </div>
         ) : (

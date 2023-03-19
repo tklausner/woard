@@ -10,8 +10,9 @@ import {
   remove,
 } from "firebase/database";
 import { useParams } from "react-router-dom";
+import Element from "./Element";
 
-function View({ userID, email, local, setLocal }) {
+function View({ userID, name, local, setLocal }) {
   const { _boardID } = useParams();
   const [texts, setTexts] = useState([]);
   const [loading, handleLoading] = useState(true);
@@ -19,18 +20,17 @@ function View({ userID, email, local, setLocal }) {
 
   useEffect(() => {
     if (boardID === undefined) {
-      // let id = name.substring(0, name.indexOf("@"));
       setBoardID(userID);
     }
   }, [boardID, userID]);
 
-  const delete_data = () => {
+  const deleteElement = (id) => {
     const confirmation = window.confirm(
-      "Are you sure you want to erase your board?"
+      "Are you sure you want to remove this?"
     );
     if (confirmation) {
       handleLoading(true);
-      const textsRef = ref(db, boardID);
+      const textsRef = ref(db, `${boardID}/${id}`);
       remove(textsRef)
         .then(() => {
           console.log("Data erased");
@@ -101,22 +101,17 @@ function View({ userID, email, local, setLocal }) {
 
   return loading ? null : (
     <div style={style.container} id="container">
-      <Surface local={local} boardID={boardID} userID={userID} />
+      <Surface
+        deleteElement={deleteElement}
+        name={name}
+        local={local}
+        boardID={boardID}
+        userID={userID}
+      />
       {local ? null : (
         <div>
           {texts.map((text) => (
-            <div
-              id={text.id}
-              key={text.id}
-              style={{
-                position: "absolute",
-                left: text.px + "px",
-                top: text.py + "px",
-                fontSize: text.size + "px",
-              }}
-            >
-              {text.text}
-            </div>
+            <Element deleteElement={deleteElement} text={text} />
           ))}
         </div>
       )}

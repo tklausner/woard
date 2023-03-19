@@ -19,7 +19,7 @@ import WifiIcon from "@mui/icons-material/Wifi";
 
 import { useParams } from "react-router-dom";
 
-function Navbar({ local, userID, handleZenMode, handleLogout }) {
+function Navbar({ name, local, userID, handleZenMode, handleLogout }) {
   const [open, setOpen] = useState(false);
   const [joinBoardID, setJoinBoardID] = useState("");
   const { _boardID } = useParams();
@@ -53,7 +53,7 @@ function Navbar({ local, userID, handleZenMode, handleLogout }) {
 
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography
             edge="start"
@@ -62,7 +62,7 @@ function Navbar({ local, userID, handleZenMode, handleLogout }) {
             }}
             variant="h6"
           >
-            @{boardID}'s Board
+            | {name} Board | {boardID}
           </Typography>
           <IconButton color="inherit" aria-label="home" onClick={handleJoin}>
             <HomeIcon />
@@ -73,9 +73,9 @@ function Navbar({ local, userID, handleZenMode, handleLogout }) {
           <IconButton color="inherit" onClick={handleClickOpen}>
             <PublicIcon />
           </IconButton>
-          <IconButton color="inherit">
+          {/* <IconButton color="inherit">
             <AccountCircleIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton color="inherit" onClick={handleLogout}>
             <LogoutIcon />
           </IconButton>
