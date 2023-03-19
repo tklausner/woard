@@ -27,8 +27,8 @@ function Navbar({ name, local, userID, handleZenMode, handleLogout }) {
 
   useEffect(() => {
     if (boardID === undefined) {
-      // let id = name.substring(0, name.indexOf("@"));
-      setBoardID(userID);
+      let id = userID.substring(0, 6).toUpperCase();
+      setBoardID(id);
     }
   }, [boardID, userID]);
 
@@ -55,6 +55,11 @@ function Navbar({ name, local, userID, handleZenMode, handleLogout }) {
     <div>
       <AppBar position="fixed">
         <Toolbar>
+          {_boardID === undefined ? null : (
+            <IconButton color="inherit" aria-label="home" onClick={handleJoin}>
+              <HomeIcon />
+            </IconButton>
+          )}
           <Typography
             edge="start"
             style={{
@@ -62,11 +67,9 @@ function Navbar({ name, local, userID, handleZenMode, handleLogout }) {
             }}
             variant="h6"
           >
-            | {name} Board | {boardID}
+            | #{boardID} |
           </Typography>
-          <IconButton color="inherit" aria-label="home" onClick={handleJoin}>
-            <HomeIcon />
-          </IconButton>
+
           <IconButton color="inherit" onClick={handleZenMode}>
             {local ? <WifiOffIcon /> : <WifiIcon />}
           </IconButton>

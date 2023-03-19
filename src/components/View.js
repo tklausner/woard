@@ -20,7 +20,8 @@ function View({ userID, name, local, setLocal }) {
 
   useEffect(() => {
     if (boardID === undefined) {
-      setBoardID(userID);
+      let id = userID.substring(0, 6).toUpperCase();
+      setBoardID(id);
     }
   }, [boardID, userID]);
 
