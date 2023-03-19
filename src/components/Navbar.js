@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PublicIcon from "@mui/icons-material/Public";
 import WifiOffIcon from "@mui/icons-material/WifiOff";
 import WifiIcon from "@mui/icons-material/Wifi";
@@ -86,10 +85,6 @@ function Navbar({
           <IconButton color="inherit" onClick={handleClickOpenHelp}>
             <HelpIcon />
           </IconButton>
-
-          {/* <IconButton color="inherit">
-            <AccountCircleIcon />
-          </IconButton> */}
           <IconButton color="inherit" onClick={handleLogout}>
             <LogoutIcon />
           </IconButton>
