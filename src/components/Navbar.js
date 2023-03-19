@@ -16,10 +16,17 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PublicIcon from "@mui/icons-material/Public";
 import WifiOffIcon from "@mui/icons-material/WifiOff";
 import WifiIcon from "@mui/icons-material/Wifi";
+import HelpIcon from "@mui/icons-material/Help";
 
 import { useParams } from "react-router-dom";
 
-function Navbar({ name, local, userID, handleZenMode, handleLogout }) {
+function Navbar({
+  handleClickOpenHelp,
+  local,
+  userID,
+  handleZenMode,
+  handleLogout,
+}) {
   const [open, setOpen] = useState(false);
   const [joinBoardID, setJoinBoardID] = useState("");
   const { _boardID } = useParams();
@@ -76,6 +83,10 @@ function Navbar({ name, local, userID, handleZenMode, handleLogout }) {
           <IconButton color="inherit" onClick={handleClickOpen}>
             <PublicIcon />
           </IconButton>
+          <IconButton color="inherit" onClick={handleClickOpenHelp}>
+            <HelpIcon />
+          </IconButton>
+
           {/* <IconButton color="inherit">
             <AccountCircleIcon />
           </IconButton> */}
