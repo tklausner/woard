@@ -11,11 +11,10 @@ import {
 } from "firebase/database";
 import { useParams } from "react-router-dom";
 
-function View({ userID, email }) {
+function View({ userID, email, local, setLocal }) {
   const { _boardID } = useParams();
   const [texts, setTexts] = useState([]);
   const [loading, handleLoading] = useState(true);
-  const [local, setLocal] = useState(true);
   const [boardID, setBoardID] = useState(_boardID);
 
   useEffect(() => {
@@ -44,11 +43,6 @@ function View({ userID, email }) {
     }
   };
 
-  const set_local = () => {
-    localStorage.setItem("local", !local);
-    setLocal(!local);
-  };
-
   useEffect(() => {
     handleLoading(true);
     if (localStorage.getItem("local")) {
@@ -62,7 +56,7 @@ function View({ userID, email }) {
       localStorage.setItem("local", true);
     }
     handleLoading(false);
-  }, [local]);
+  }, [local, setLocal]);
 
   useEffect(() => {
     const textsRef = ref(db, boardID);
@@ -107,21 +101,6 @@ function View({ userID, email }) {
 
   return loading ? null : (
     <div style={style.container} id="container">
-      <h1>{local ? "LOCAL" : "ONLINE"}</h1>
-      <h5>UserID {userID}</h5>
-      <h5>BoardID {boardID}</h5>
-      <h5>Email {email}</h5>
-
-      <div style={style.buttonContainer}>
-        {!local && userID === boardID ? (
-          <button style={style.button} onClick={delete_data}>
-            Erase
-          </button>
-        ) : null}
-        <button style={style.button} onClick={set_local}>
-          {local ? "Go online" : "Go local"}
-        </button>
-      </div>
       <Surface local={local} boardID={boardID} userID={userID} />
       {local ? null : (
         <div>

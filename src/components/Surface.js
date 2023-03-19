@@ -7,6 +7,13 @@ function Surface({ local, boardID, userID }) {
 
   useEffect(() => {
     function handleDocumentClick(event) {
+      if (
+        event.target.tagName === "INPUT" ||
+        event.target.tagName === "BUTTON" ||
+        event.target.tagName === "TEXTAREA"
+      ) {
+        return;
+      }
       const newDiv = document.createElement("div");
       newDiv.style.position = "absolute";
       newDiv.style.left = event.pageX + "px";
