@@ -20,7 +20,8 @@ function App() {
   const [local, setLocal] = useState(true);
   const [welcomeDialogOpen, setWelcomeDialogOpen] = useState(false);
 
-  const handleClickOpenHelp = () => {
+  const handleClickOpenHelp = (event) => {
+    event.stopPropagation();
     setWelcomeDialogOpen(true);
   };
 
@@ -33,12 +34,14 @@ function App() {
     setWelcomeDialogOpen(false);
   };
 
-  const handleLogout = () => {
+  const handleLogout = (event) => {
+    event.stopPropagation();
     const auth = getAuth();
     auth.signOut();
   };
 
-  const handleZenMode = () => {
+  const handleZenMode = (event) => {
+    event.stopPropagation();
     localStorage.setItem("local", !local);
     setLocal(!local);
   };
